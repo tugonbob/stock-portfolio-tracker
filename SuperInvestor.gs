@@ -1,6 +1,6 @@
 function GetRecentSuperInvestorTrades() {
   let ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName("Recent Super Investor Trades");
+  let sheet = ss.getSheetByName("Super Investors");
   let trades = sheet.getRange("H2:H").getValues();
 
   let recentUniqueTrades = [];
