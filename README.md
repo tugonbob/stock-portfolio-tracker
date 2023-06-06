@@ -2,7 +2,7 @@
 
 ## Link to Spreadsheet. Take a look!
 
-https://docs.google.com/spreadsheets/d/1VVdyaR6301wR6bW8tCLX5kh-q9Qt_3s0AiSrbTvzYKQ/edit?usp=sharing
+https://docs.google.com/spreadsheets/d/1wrPfNQtEmuMB3GUdjDgKffgdOIyPkrvQC0l_QhYNKxE/edit?usp=sharing
 
 # Tab Descriptions
 
@@ -25,6 +25,10 @@ Used to keep track of daily portfolio value, gains minute by minute, and daily p
 ### Market Map
 
 Used to scrape data for the S&P500 map on "Dashboard" tab. Also keeps track of daily and YTD percentage changes of major indices
+
+### VOO Price History
+
+Used to keep track of the daily price of the S&P500. Will be used by to chart S&P500 compared to portfolio performance.
 
 ### Super Investors
 
@@ -85,6 +89,10 @@ Everyday before market open, delete yesterday's minute gains
 ### dailyGainsTracker()
 
 Everyday, record total gains after market close
+
+### sp500GainsTracker()
+
+Everyday, record total gains that the S&P500 achieved
 
 ### GetDynamicChart(timeperiod)
 

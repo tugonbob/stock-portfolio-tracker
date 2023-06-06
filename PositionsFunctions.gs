@@ -30,32 +30,6 @@ function GetOwnedShareNumber(ticker) {
   return sum;
 }
 
-function GetShareMaturity(ticker) {
-  let ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName("History");
-  let dates = sheet.getRange("A3:A").getValues();
-  let tickers = sheet.getRange("B3:B").getValues();
-  let actions = sheet.getRange("C3:C").getValues();
-  let quantities = sheet.getRange("D3:D").getValues();
-
-  let sum = 0;
-  let prevYear = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-  for (let i = 0; i < tickers.length; i++) {
-    if (tickers[i][0] !== ticker) continue;
-    if (actions[i][0] == "Dividend") continue;
-
-    if (dates[i][0] > prevYear) {
-      let diffInMs = new Date() - dates[i][0];
-      let diffInDays = diffInMs / (1000 * 60 * 60 * 24);
-
-      sum += quantities[i][0] * (diffInDays / 365);
-    } else {
-      sum += quantities[i][0];
-    }
-  }
-  return sum;
-}
-
 function GetTotalDividends(ticker) {
   let ss = SpreadsheetApp.getActiveSpreadsheet();
   let sheet = ss.getSheetByName("History");
