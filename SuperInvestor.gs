@@ -96,6 +96,5 @@ function GetRecentSuperInvestorTrades() {
       break;
     }
   }
-
   return recentUniqueTrades;
 }

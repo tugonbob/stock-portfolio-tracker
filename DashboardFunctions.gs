@@ -2,15 +2,18 @@ function GetYtdStats() {
   let ss = SpreadsheetApp.getActiveSpreadsheet();
   let historySheet = ss.getSheetByName("History");
   let chartDataSheet = ss.getSheetByName("Chart Data");
+  let vooPriceSheet = ss.getSheetByName("VOO Price History");
   let history = historySheet.getRange("A3:F").getValues();
-  let dailyGains = chartDataSheet.getRange("H2:I").getValues();
-  let portfolioValue = chartDataSheet.getRange("D2:E").getValues();
+  let dailyGains = chartDataSheet.getRange("I2:J").getValues();
+  let portfolioValue = chartDataSheet.getRange("E2:F").getValues();
+  let vooHistory = vooPriceSheet.getRange("A2:B").getValues();
 
   let ytdStats = [];
   let ytdInvested = 0;
   let ytdDividends = 0;
   let ytdDollarChange = 0;
   let ytdPercentChange = 0;
+  let ytdSp500PercentChange = 0;
   let ttmDividends = 0;
   let ttmHourlySalary = 0;
 
@@ -39,15 +42,23 @@ function GetYtdStats() {
   }
 
   //get last non-empty row
-  const lastRow = dailyGains.findIndex((element) => element[0] === "") - 1;
+  let lastRow = dailyGains.findIndex((element) => element[0] === "") - 1;
   // find the index of the row that is most recent dec 31
-  const dec31Index = dailyGains.findIndex(
+  let dec31Index = dailyGains.findIndex(
     (element) => element[0].setHours(0, 0, 0, 0) === dec31
   );
 
   // get ytdDollarChange and ytdPercentChange
   ytdDollarChange = dailyGains[lastRow][1] - dailyGains[dec31Index][1];
   ytdPercentChange = ytdDollarChange / portfolioValue[lastRow][1];
+
+  // get ytdSp500Percent change
+  lastRow = vooHistory.findIndex((element) => element[0] === "") - 1;
+  dec31Index =
+    vooHistory.findIndex((element) => element[0].setHours(0, 0, 0, 0) > dec31) -
+    1;
+  ytdSp500PercentChange =
+    vooHistory[lastRow][1] / vooHistory[dec31Index][1] - 1;
 
   // get number of work days in a year
   let workDays = 365 * (5 / 7);
@@ -59,6 +70,7 @@ function GetYtdStats() {
   ytdStats.push([ytdDividends]);
   ytdStats.push([ytdDollarChange]);
   ytdStats.push([ytdPercentChange]);
+  ytdStats.push([ytdSp500PercentChange]);
   ytdStats.push([ttmHourlySalary]);
 
   return ytdStats;
@@ -69,7 +81,7 @@ function GetPortfolioCagr() {
   let historySheet = ss.getSheetByName("History");
   let chartDataSheet = ss.getSheetByName("Chart Data");
   let history = historySheet.getRange("A3:F").getValues();
-  let portfolioValue = chartDataSheet.getRange("D2:E").getValues();
+  let portfolioValue = chartDataSheet.getRange("E2:F").getValues();
 
   let hpr = [];
 
@@ -126,7 +138,7 @@ function GetPortfolioCagr() {
 function GetLastPortfolioValue() {
   let ss = SpreadsheetApp.getActiveSpreadsheet();
   let chartDataSheet = ss.getSheetByName("Chart Data");
-  let portfolioValue = chartDataSheet.getRange("D2:E").getValues();
+  let portfolioValue = chartDataSheet.getRange("E2:F").getValues();
 
   let lastRow = portfolioValue.findIndex((element) => element[0] === "") - 1;
 
